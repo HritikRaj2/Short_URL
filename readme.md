@@ -1,13 +1,29 @@
-Yes — copy everything inside this block directly into your `README.md`:
-
-````markdown
 # 🔗 URL Shortener
 
-A simple URL Shortener backend application built using **Java, Spring Boot, Spring Data JPA, and PostgreSQL**.
+A URL Shortener backend application built with **Java, Spring Boot, Spring Data JPA, and PostgreSQL**.
 
-The application allows users to submit a long URL, validates it, generates a unique short key, and stores the mapping between the original URL and the generated short key in PostgreSQL.
+The application lets users submit a long URL, validates it, generates a unique short key, and stores the mapping between the original URL and the short key in PostgreSQL.
 
-> 🚧 This project is currently under development.
+> 🚧 **Status:** This project is currently under development.
+
+---
+
+## 📑 Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [Architecture](#️-architecture)
+- [Project Structure](#-project-structure)
+- [How URL Shortening Works](#-how-url-shortening-works)
+- [Short Key Generation](#-short-key-generation)
+- [API Endpoints](#-api-endpoints)
+- [Database](#️-database)
+- [Configuration](#️-configuration)
+- [Running the Project](#️-running-the-project)
+- [Testing with Postman](#-testing-with-postman)
+- [Development Roadmap](#️-development-roadmap)
+- [Current Limitations](#️-current-limitations)
+- [Author](#-author)
 
 ---
 
@@ -15,52 +31,41 @@ The application allows users to submit a long URL, validates it, generates a uni
 
 ### Currently Implemented
 
-- User Registration
-- User Login
-- URL Validation
-- Random Short Key Generation
-- Unique Short Key Verification
-- Store Original URL and Short Key
-- PostgreSQL Database Integration
+- User registration
+- User login
+- URL validation
+- Random short key generation
+- Unique short key verification
+- Storing the original URL and short key
+- PostgreSQL database integration
 - Spring Data JPA
 - REST APIs
-- Click Count Tracking Field
+- Click count tracking field
 
 ### Upcoming Features
 
-- Short URL Redirection
-- Click Count Increment
-- Custom Short URLs
-- URL Expiration
+- Short URL redirection
+- Click count increment
+- Custom short URLs
+- URL expiration
 - Private URLs
 - User-specific URLs
-- Password Encryption
-- JWT Authentication
-- URL Analytics
+- Password encryption
+- JWT authentication
+- URL analytics
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Backend
-
-- Java 21
-- Spring Boot
-- Spring Web
-- Spring Data JPA
-- Hibernate
-
-### Database
-
-- PostgreSQL
-
-### Tools
-
-- Maven
-- Postman
-- IntelliJ IDEA
-- Git
-- GitHub
+| Category | Technologies |
+|----------|--------------|
+| **Language** | Java 21 |
+| **Framework** | Spring Boot, Spring Web |
+| **Persistence** | Spring Data JPA, Hibernate |
+| **Database** | PostgreSQL |
+| **Build Tool** | Maven |
+| **Tools** | Postman, IntelliJ IDEA, Git, GitHub |
 
 ---
 
@@ -82,28 +87,14 @@ Client / Postman
        │
        ▼
   PostgreSQL
-````
+```
 
-### Controller
-
-Handles HTTP requests and responses.
-
-### Service
-
-Contains the main business logic such as:
-
-* URL validation
-* Short key generation
-* Short key uniqueness checking
-* Creating shortened URLs
-
-### Repository
-
-Uses Spring Data JPA to interact with PostgreSQL.
-
-### Entity
-
-Represents database tables and their relationships.
+| Layer | Responsibility |
+|-------|----------------|
+| **Controller** | Handles HTTP requests and responses. |
+| **Service** | Contains the business logic: URL validation, short key generation, uniqueness checking, and creating shortened URLs. |
+| **Repository** | Uses Spring Data JPA to interact with PostgreSQL. |
+| **Entity** | Represents database tables and their relationships. |
 
 ---
 
@@ -135,13 +126,13 @@ src/main/java/com/url/Shortner/
 
 ## 🔄 How URL Shortening Works
 
-The user sends a long URL:
+The user sends a long URL, for example:
 
 ```text
 https://www.google.com
 ```
 
-The application then:
+The application then processes it as follows:
 
 ```text
 Long URL
@@ -165,17 +156,14 @@ Save in PostgreSQL
 Return Short Key
 ```
 
-Example:
+**Example**
 
 ```text
-Original URL:
-https://www.google.com
-
-Generated Short Key:
-Iltnb9
+Original URL:      https://www.google.com
+Generated Key:     Iltnb9
 ```
 
-The mapping is stored in the database:
+The mapping stored in the database:
 
 ```text
 shortkey    → Iltnb9
@@ -187,9 +175,7 @@ clickCount  → 0
 
 ## 🔑 Short Key Generation
 
-The application generates a random 6-character key using uppercase letters, lowercase letters, and numbers.
-
-The available characters are:
+The application generates a random **6-character** key using uppercase letters, lowercase letters, and digits:
 
 ```text
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -197,9 +183,9 @@ abcdefghijklmnopqrstuvwxyz
 0123456789
 ```
 
-`SecureRandom` is used to generate the key.
+Keys are generated with `SecureRandom`.
 
-Example:
+**Example keys**
 
 ```text
 Iltnb9
@@ -208,23 +194,29 @@ P91ksL
 X8mQ2z
 ```
 
-Before saving the URL, the application checks whether the generated key already exists.
-
-If the key already exists, a new key is generated.
+Before saving a URL, the application checks whether the generated key already exists. If it does, a new key is generated.
 
 ---
 
-# 📡 API Endpoints
+## 📡 API Endpoints
 
-## 1. Register User
+Base URL: `http://localhost:8086`
 
-### Endpoint
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/saveuser` | Register a new user |
+| `POST` | `/api/login` | Log in a user |
+| `POST` | `/api/sendurl` | Shorten a URL |
+
+### 1. Register User
+
+**Endpoint**
 
 ```http
 POST /api/saveuser
 ```
 
-### Request Body
+**Request Body**
 
 ```json
 {
@@ -234,64 +226,60 @@ POST /api/saveuser
 }
 ```
 
-### Example Response
+**Example Response**
 
 ```text
 Registered Successfully
 ```
 
----
+### 2. Login User
 
-## 2. Login User
-
-### Endpoint
+**Endpoint**
 
 ```http
 POST /api/login
 ```
 
-### Request Parameters
+**Request Parameters**
 
-```text
-email=hritik@example.com
-password=123456
-```
+| Parameter | Example |
+|-----------|---------|
+| `email` | `hritik@example.com` |
+| `password` | `123456` |
 
-### Example Request
+**Example Request**
 
 ```http
 POST http://localhost:8086/api/login?email=hritik@example.com&password=123456
 ```
 
-### Success Response
+**Success Response**
 
 ```text
 Login successfully
 ```
 
----
+### 3. Shorten URL
 
-## 3. Shorten URL
-
-### Endpoint
+**Endpoint**
 
 ```http
 POST /api/sendurl
 ```
 
-### Request Parameter
+**Request Parameter**
 
-```text
-url=https://www.google.com
-```
+| Parameter | Example |
+|-----------|---------|
+| `url` | `https://www.google.com` |
 
-### Example Request
+**Example Request**
 
 ```http
 POST http://localhost:8086/api/sendurl?url=https://www.google.com
 ```
 
-### Example Response
+**Example Response**
 
 ```text
 URL shortened successfully: Iltnb9
@@ -299,62 +287,44 @@ URL shortened successfully: Iltnb9
 
 ---
 
-# 🗄️ Database
+## 🗄️ Database
 
 The project uses **PostgreSQL**.
 
-### Database
+- **Database:** `postgres`
+- **Tables:** `users`, `shorturl`
 
-```text
-postgres
-```
-
-### Tables
-
-```text
-users
-shorturl
-```
-
----
-
-## 👤 User Entity
+### 👤 User Entity
 
 The `users` table stores registered user information.
 
-Important fields:
+| Field | Description |
+|-------|-------------|
+| `id` | Unique identifier |
+| `email` | User's email address |
+| `password` | User's password |
+| `name` | User's name |
+| `createdAt` | Registration timestamp |
 
-```text
-id
-email
-password
-name
-createdAt
-```
-
----
-
-## 🔗 ShortUrl Entity
+### 🔗 ShortUrl Entity
 
 The `shorturl` table stores shortened URL information.
 
-Important fields:
-
-```text
-id
-shortkey
-originalUrl
-createdBy
-privateOnly
-isPrivate
-createdAt
-expiredAt
-clickCount
-```
+| Field | Description |
+|-------|-------------|
+| `id` | Unique identifier |
+| `shortkey` | Generated short key |
+| `originalUrl` | The original long URL |
+| `createdBy` | User who created the short URL |
+| `privateOnly` | Private-access setting |
+| `isPrivate` | Whether the URL is private |
+| `createdAt` | Creation timestamp |
+| `expiredAt` | Expiration timestamp |
+| `clickCount` | Number of clicks |
 
 ---
 
-# ⚙️ Configuration
+## ⚙️ Configuration
 
 The application configuration is located at:
 
@@ -362,7 +332,7 @@ The application configuration is located at:
 src/main/resources/application.yaml
 ```
 
-Example configuration:
+**Example configuration**
 
 ```yaml
 spring:
@@ -382,55 +352,36 @@ server:
   port: 8086
 ```
 
-Replace:
+Replace `YOUR_PASSWORD` with your PostgreSQL password.
 
-```text
-YOUR_PASSWORD
-```
-
-with your PostgreSQL password.
-
-> Do not commit your actual database password to GitHub.
+> ⚠️ **Do not commit your actual database password to GitHub.**
 
 ---
 
-# ▶️ Running the Project
+## ▶️ Running the Project
 
-## 1. Clone the Repository
+### Prerequisites
+
+- Java 21
+- Maven
+- PostgreSQL
+
+### 1. Clone the Repository
 
 ```bash
 git clone <your-repository-url>
-```
-
-Navigate to the project:
-
-```bash
 cd Shortner
 ```
 
----
+### 2. Start PostgreSQL
 
-## 2. Start PostgreSQL
+Make sure PostgreSQL is running on `localhost:5432`.
 
-Make sure PostgreSQL is running on:
+### 3. Configure the Database
 
-```text
-localhost:5432
-```
+Update your PostgreSQL username and password in `src/main/resources/application.yaml`.
 
----
-
-## 3. Configure Database
-
-Update your PostgreSQL username and password in:
-
-```text
-src/main/resources/application.yaml
-```
-
----
-
-## 4. Run the Application
+### 4. Run the Application
 
 Using Maven:
 
@@ -438,13 +389,7 @@ Using Maven:
 mvn spring-boot:run
 ```
 
-Or run:
-
-```text
-ShortnerApplication.java
-```
-
-from IntelliJ IDEA.
+Or run `ShortnerApplication.java` directly from IntelliJ IDEA.
 
 The application will start on:
 
@@ -454,25 +399,23 @@ http://localhost:8086
 
 ---
 
-# 🧪 Testing with Postman
+## 🧪 Testing with Postman
 
 You can use Postman to test the APIs.
 
-### Example: Shorten URL
+**Example: Shorten a URL**
 
 ```text
 POST http://localhost:8086/api/sendurl
 ```
 
-Add the following parameter:
+Add the following query parameter:
 
-```text
-KEY       VALUE
--------------------------------
-url       https://www.google.com
-```
+| KEY | VALUE |
+|-----|-------|
+| `url` | `https://www.google.com` |
 
-Expected response:
+**Expected response**
 
 ```text
 URL shortened successfully: Iltnb9
@@ -480,11 +423,9 @@ URL shortened successfully: Iltnb9
 
 ---
 
-# 🗺️ Development Roadmap
+## 🗺️ Development Roadmap
 
-The next major feature is **URL Redirection**.
-
-The planned flow is:
+The next major feature is **URL Redirection**. The planned flow:
 
 ```text
 http://localhost:8086/Iltnb9
@@ -504,60 +445,46 @@ http://localhost:8086/Iltnb9
 
 ### Future Improvements
 
-* [ ] URL Redirection
-* [ ] Click Count Increment
-* [ ] Custom Short URLs
-* [ ] URL Expiration
-* [ ] Private URLs
-* [ ] User URL Dashboard
-* [ ] BCrypt Password Hashing
-* [ ] JWT Authentication
-* [ ] Exception Handling
-* [ ] DTOs
-* [ ] API Documentation
-* [ ] Unit Testing
-* [ ] Deployment
+- [ ] URL redirection
+- [ ] Click count increment
+- [ ] Custom short URLs
+- [ ] URL expiration
+- [ ] Private URLs
+- [ ] User URL dashboard
+- [ ] BCrypt password hashing
+- [ ] JWT authentication
+- [ ] Exception handling
+- [ ] DTOs
+- [ ] API documentation
+- [ ] Unit testing
+- [ ] Deployment
 
 ---
 
-# ⚠️ Current Limitations
+## ⚠️ Current Limitations
 
-This project is currently under development.
+This project is under development. At the moment:
 
-At the moment:
+- Passwords are stored without encryption.
+- JWT authentication is not implemented.
+- URL redirection is not implemented yet.
+- Advanced authorization is not implemented.
+- API error handling is still basic.
+- Login credentials are sent as query parameters, which is not secure.
 
-* Passwords are stored without encryption.
-* JWT authentication is not implemented.
-* URL redirection is not implemented yet.
-* Advanced authorization is not implemented.
-* API error handling is still basic.
-
-These features will be added in future versions.
+These items will be addressed in future versions.
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
 **Hritik Raj**
-
 B.Tech Computer Science (Data Science)
 
-### Technologies
-
-```text
-Java
-Spring Boot
-Spring Data JPA
-PostgreSQL
-Git
-REST API
-```
+**Technologies:** Java · Spring Boot · Spring Data JPA · PostgreSQL · Git · REST API
 
 ---
 
 ## ⭐ Support
 
 If you find this project useful, consider giving the repository a star ⭐
-
-```
-```
